@@ -1,18 +1,45 @@
-# 🏥 Hospital Management System — Microservices
+# 🏥 Hospital Management Microservices
 
-A containerized **Hospital Management System** built using **FastAPI, Docker, and Microservices Architecture**. The system consists of independent services for appointments, patients, doctors, and billing.
+A containerized **Hospital Management System** built using **FastAPI, Docker, REST APIs, and SQLite**. The system follows a microservices architecture with independent services for appointments, patients, doctors, and billing.
 
 ## 📑 Contents
 
-* [Architecture](#-architecture)
-* [Services](#-services)
-* [Tech Stack](#-tech-stack)
-* [Project Structure](#-project-structure)
-* [APIs](#-apis)
-* [Performance](#-performance)
-* [Resource Usage](#-resource-usage)
-* [Setup](#-setup)
-* [Conclusion](#-conclusion)
+1. [Project Overview](#-project-overview)
+2. [Architecture](#-architecture)
+3. [Microservices](#-microservices)
+4. [Project Structure](#-project-structure)
+5. [Execution](#-execution)
+6. [APIs](#-apis)
+7. [Performance Testing](#-performance-testing)
+8. [Performance Results](#-performance-results)
+9. [Resource Usage](#-resource-usage)
+10. [Analysis](#-analysis)
+11. [Conclusion](#-conclusion)
+
+---
+
+## 🏥 Project Overview
+
+The project implements a **Hospital Management System using Microservices Architecture**.
+
+The system separates major hospital operations into four independent services:
+
+* Appointment Service
+* Patient Service
+* Doctor Service
+* Billing Service
+
+Each service runs independently in a Docker container and communicates through REST APIs.
+
+### Key Features
+
+* Independent microservices
+* Docker containerization
+* REST API communication
+* SQLite database
+* Swagger API documentation
+* Concurrent load testing
+* CPU and memory monitoring
 
 ---
 
@@ -20,39 +47,41 @@ A containerized **Hospital Management System** built using **FastAPI, Docker, an
 
 ```mermaid
 flowchart LR
-    U[User] --> A[Appointment<br/>8000]
-    A --> P[Patient<br/>8001]
-    A --> D[Doctor<br/>8002]
-    A --> B[Billing<br/>8003]
+    U[User / Client] --> A[Appointment Service<br/>8000]
+
+    A --> P[Patient Service<br/>8001]
+    A --> D[Doctor Service<br/>8002]
+    A --> B[Billing Service<br/>8003]
 ```
 
-The **Appointment Service** acts as the main service and communicates with the other microservices through REST APIs.
+The **Appointment Service** acts as the main service and communicates with the Patient, Doctor, and Billing services.
 
 ---
 
-## 🔹 Services
+## 📦 Microservices
 
-| Service     | Port | Purpose                      |
-| ----------- | ---: | ---------------------------- |
-| Appointment | 8000 | Main service / orchestration |
-| Patient     | 8001 | Patient management           |
-| Doctor      | 8002 | Doctor management            |
-| Billing     | 8003 | Billing management           |
+| Service     |   Port | Database        | Responsibility                         |
+| ----------- | -----: | --------------- | -------------------------------------- |
+| Appointment | `8000` | appointments.db | Appointment management & orchestration |
+| Patient     | `8001` | patients.db     | Patient management                     |
+| Doctor      | `8002` | doctors.db      | Doctor management                      |
+| Billing     | `8003` | billing.db      | Billing management                     |
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-| Component        | Technology          |
-| ---------------- | ------------------- |
-| Language         | Python              |
-| Framework        | FastAPI             |
-| API              | REST                |
-| Containerization | Docker              |
-| Orchestration    | Docker Compose      |
-| Documentation    | Swagger / OpenAPI   |
-| Testing          | Python Load Testing |
-| Version Control  | Git / GitHub        |
+| Component        | Technology        |
+| ---------------- | ----------------- |
+| Language         | Python            |
+| Framework        | FastAPI           |
+| Database         | SQLite            |
+| API              | REST              |
+| Containerization | Docker            |
+| Orchestration    | Docker Compose    |
+| Load Testing     | Python / HTTPX    |
+| Documentation    | Swagger / OpenAPI |
+| Version Control  | Git / GitHub      |
 
 ---
 
@@ -60,103 +89,58 @@ The **Appointment Service** acts as the main service and communicates with the o
 
 ```text
 hospital_microservices_4/
+│
 ├── appointment-service/
 ├── patient-service/
 ├── doctor-service/
 ├── billing-service/
+│
 ├── docker-compose.yml
 ├── load_test.py
-└── README.md
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🚀 Execution
+
+### Build and Start
+
+```bash
+docker compose up --build -d
+```
+
+### Check Containers
+
+```bash
+docker compose ps
+```
+
+### Monitor Resources
+
+```bash
+docker stats
+```
+
+### Stop Services
+
+```bash
+docker compose down
 ```
 
 ---
 
 ## 🌐 APIs
 
-| Service     | URL     | Swagger |
-| ----------- | ------- | ------- |
-| Appointment | `:8000` | `/docs` |
-| Patient     | `:8001` | `/docs` |
-| Doctor      | `:8002` | `/docs` |
-| Billing     | `:8003` | `/docs` |
+| Service     | Base URL                | Swagger |
+| ----------- | ----------------------- | ------- |
+| Appointment | `http://localhost:8000` | `/docs` |
+| Patient     | `http://localhost:8001` | `/docs` |
+| Doctor      | `http://localhost:8002` | `/docs` |
+| Billing     | `http://localhost:8003` | `/docs` |
 
 Example:
-
-```text
-http://localhost:8001/patients
-http://localhost:8001/patients/1
-http://localhost:8001/health
-```
-
----
-
-# 📊 Performance
-
-The system was tested with **1, 2, 4, 8, and 16 concurrent requests**.
-
-| Concurrent | Latency (ms) | Throughput (req/s) | Failures |
-| ---------: | -----------: | -----------------: | -------: |
-|          1 |        59.13 |              16.88 |        0 |
-|          2 |        40.65 |              48.32 |        0 |
-|          4 |        42.99 |              89.89 |        0 |
-|          8 |        85.53 |              91.33 |        0 |
-|         16 |       148.72 |             102.94 |        0 |
-
-### Latency
-
-```mermaid
-xychart-beta
-    title "Latency vs Concurrency"
-    x-axis [1, 2, 4, 8, 16]
-    y-axis "ms" 0 --> 160
-    line [59.13, 40.65, 42.99, 85.53, 148.72]
-```
-
-### Throughput
-
-```mermaid
-xychart-beta
-    title "Throughput vs Concurrency"
-    x-axis [1, 2, 4, 8, 16]
-    y-axis "Requests/sec" 0 --> 110
-    line [16.88, 48.32, 89.89, 91.33, 102.94]
-```
-
-**Result:** Maximum throughput = **102.94 req/s** with **0 failures**.
-
----
-
-## 💻 Resource Usage
-
-| Service     |   CPU |    Memory |
-| ----------- | ----: | --------: |
-| Appointment | 0.18% | 51.55 MiB |
-| Doctor      | 0.17% | 33.56 MiB |
-| Patient     | 0.17% | 33.11 MiB |
-
----
-
-## 🐳 Setup
-
-```bash
-git clone <YOUR_REPOSITORY_URL>
-cd hospital_microservices_4
-docker compose up --build
-```
-
-Stop services:
-
-```bash
-docker compose down
-```
-
-Check containers:
-
-```bash
-docker ps
-```
-
-Swagger:
 
 ```text
 http://localhost:8000/docs
@@ -167,28 +151,145 @@ http://localhost:8003/docs
 
 ---
 
-## ✅ Key Features
+# ⚡ Performance Testing
 
-* Microservices-based architecture
-* Independent Docker containers
-* REST API communication
-* FastAPI backend
-* Swagger documentation
-* Concurrent load testing
-* Performance and resource analysis
+The system was tested with increasing concurrent workloads:
+
+**1 → 2 → 4 → 8 → 16 concurrent requests**
+
+The following metrics were measured:
+
+* Average Response Time
+* Throughput
+* Failed Requests
 
 ---
 
-## 🏁 Conclusion
+## 📊 Performance Results
 
-The project demonstrates a **Dockerized Hospital Management System using Microservices Architecture**. The services operate independently and communicate through REST APIs. Performance testing achieved **102.94 requests/second with zero failures**, demonstrating reliable operation under the tested load.
+| Concurrency | Avg Response Time (ms) | Throughput (req/s) | Failures |
+| ----------: | ---------------------: | -----------------: | -------: |
+|           1 |              **67.87** |          **14.71** |        0 |
+|           2 |              **48.70** |          **40.42** |        0 |
+|           4 |              **55.97** |          **69.52** |        0 |
+|           8 |              **93.16** |          **82.93** |        0 |
+|          16 |             **170.43** |          **90.86** |        0 |
+
+---
+
+## 📈 Response Time
+
+```mermaid
+xychart-beta
+    title "Concurrency vs Average Response Time"
+    x-axis "Concurrent Requests" [1, 2, 4, 8, 16]
+    y-axis "Response Time (ms)" 0 --> 180
+    line [67.87, 48.70, 55.97, 93.16, 170.43]
+```
+
+---
+
+## 📈 Throughput
+
+```mermaid
+xychart-beta
+    title "Concurrency vs Throughput"
+    x-axis "Concurrent Requests" [1, 2, 4, 8, 16]
+    y-axis "Requests / Second" 0 --> 100
+    line [14.71, 40.42, 69.52, 82.93, 90.86]
+```
+
+---
+
+# 💻 Resource Usage
+
+Docker resource monitoring produced the following results:
+
+| Service     | CPU Usage | Memory Usage | Memory % |
+| ----------- | --------: | -----------: | -------: |
+| Appointment |     0.26% |    52.14 MiB |    0.67% |
+| Doctor      |     0.21% |    33.23 MiB |    0.43% |
+| Patient     |     0.22% |    33.15 MiB |    0.43% |
+| Billing     |     0.23% |    33.23 MiB |    0.43% |
+
+---
+
+## 📊 Memory Usage
+
+```mermaid
+xychart-beta
+    title "Memory Usage by Service"
+    x-axis "Service" [Appointment, Doctor, Patient, Billing]
+    y-axis "Memory (MiB)" 0 --> 60
+    bar [52.14, 33.23, 33.15, 33.23]
+```
+
+---
+
+# 🔍 Analysis
+
+* **Highest throughput:** 90.86 req/s at 16 concurrent requests.
+* **Lowest response time:** 48.70 ms at 2 concurrent requests.
+* **Failed requests:** 0 across all tested workloads.
+* Response time increased as concurrency increased beyond 4 users.
+* The Appointment Service consumed the highest memory at **52.14 MiB**.
+* All services maintained low CPU utilization during monitoring.
+
+---
+
+# 🐳 Docker Network
+
+All services communicate through the Docker Compose network.
+
+```text
+                    Docker Network
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+     Patient          Doctor         Billing
+      :8001           :8002           :8003
+          ▲              ▲              ▲
+          └──────────────┼──────────────┘
+                         │
+                  Appointment
+                     :8000
+```
+
+---
+
+# ✅ Key Features
+
+| Feature                          | Status |
+| -------------------------------- | ------ |
+| Four Microservices               | ✅      |
+| FastAPI REST APIs                | ✅      |
+| Docker Containers                | ✅      |
+| Docker Compose                   | ✅      |
+| Service-to-Service Communication | ✅      |
+| SQLite Persistence               | ✅      |
+| Swagger Documentation            | ✅      |
+| Load Testing                     | ✅      |
+| Performance Analysis             | ✅      |
+| Resource Monitoring              | ✅      |
+
+---
+
+# 🏁 Conclusion
+
+The project successfully demonstrates a **Dockerized Hospital Management System using Microservices Architecture**.
+
+The system handled workloads from **1 to 16 concurrent requests with zero failures**. Throughput increased from **14.71 req/s to 90.86 req/s**, while response time increased at higher concurrency.
+
+The project demonstrates practical implementation of **FastAPI, REST APIs, Docker, Docker Compose, SQLite, microservices communication, load testing, and resource monitoring**.
+
+---
 
 ## 👨‍💻 Team
 
-| Member    | Contribution              |
-| --------- | ------------------------- |
-| Chaitanya | Development & Integration |
-| Divya     | Billing Service           |
-| Team      | Testing & Integration     |
+| Member    | Contribution                            |
+| --------- | --------------------------------------- |
+| Chaitanya | Microservices Development & Integration |
+| Divya     | Billing Service Development             |
+| Team      | Testing & Integration                   |
 
 ---
