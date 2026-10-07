@@ -873,29 +873,6 @@ The complete measured performance observation is summarized below.
 
 ---
 
-# ✅ Key Features
-
-| Feature                      | Status |
-| :--------------------------- | :----: |
-| Microservices Architecture   |    ✅   |
-| Independent Services         |    ✅   |
-| FastAPI REST APIs            |    ✅   |
-| SQLite Persistence           |    ✅   |
-| Docker Containerization      |    ✅   |
-| Docker Compose               |    ✅   |
-| Inter-Service Communication  |    ✅   |
-| Docker Network               |    ✅   |
-| Swagger / OpenAPI            |    ✅   |
-| Concurrent Workload Testing  |    ✅   |
-| Performance Measurement      |    ✅   |
-| CPU Monitoring               |    ✅   |
-| Memory Monitoring            |    ✅   |
-| Performance Graphs           |    ✅   |
-| Resource Analysis            |    ✅   |
-| Git / GitHub Version Control |    ✅   |
-
----
-
 # 📦 Deployment Components
 
 The project contains the following major deployment components:
