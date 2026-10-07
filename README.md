@@ -274,22 +274,12 @@ All services communicate through the Docker Compose network.
 
 ---
 
-# 🏁 Conclusion
+#  Conclusion
 
 The project successfully demonstrates a **Dockerized Hospital Management System using Microservices Architecture**.
 
 The system handled workloads from **1 to 16 concurrent requests with zero failures**. Throughput increased from **14.71 req/s to 90.86 req/s**, while response time increased at higher concurrency.
 
 The project demonstrates practical implementation of **FastAPI, REST APIs, Docker, Docker Compose, SQLite, microservices communication, load testing, and resource monitoring**.
-
----
-
-## 👨‍💻 Team
-
-| Member    | Contribution                            |
-| --------- | --------------------------------------- |
-| Chaitanya | Microservices Development & Integration |
-| Divya     | Billing Service Development             |
-| Team      | Testing & Integration                   |
 
 ---
