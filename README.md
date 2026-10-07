@@ -182,11 +182,26 @@ The following metrics were measured:
 
 ## 📈 Response Time
 
-**Bright Red**
+**Red Line**
 
 ```mermaid
-%%{init: {'theme':'default', 'themeVariables': {'primaryColor':'#FF1744', 'lineColor':'#FF1744', 'primaryTextColor':'#000000', 'primaryBorderColor':'#FF1744', 'textColor':'#000000'}}}%%
-
+---
+config:
+  theme: base
+  themeVariables:
+    xyChart:
+      backgroundColor: "#FFFFFF"
+      titleColor: "#111111"
+      xAxisLabelColor: "#111111"
+      xAxisTitleColor: "#111111"
+      xAxisTickColor: "#333333"
+      xAxisLineColor: "#333333"
+      yAxisLabelColor: "#111111"
+      yAxisTitleColor: "#111111"
+      yAxisTickColor: "#333333"
+      yAxisLineColor: "#333333"
+      plotColorPalette: "#D32F2F"
+---
 xychart-beta
     title "Concurrency vs Average Response Time"
     x-axis "Concurrent Requests" [1, 2, 4, 8, 16]
@@ -198,11 +213,26 @@ xychart-beta
 
 ## 📈 Throughput
 
-**Bright Blue**
+**Blue Line**
 
 ```mermaid
-%%{init: {'theme':'default', 'themeVariables': {'primaryColor':'#2979FF', 'lineColor':'#2979FF', 'primaryTextColor':'#000000', 'primaryBorderColor':'#2979FF', 'textColor':'#000000'}}}%%
-
+---
+config:
+  theme: base
+  themeVariables:
+    xyChart:
+      backgroundColor: "#FFFFFF"
+      titleColor: "#111111"
+      xAxisLabelColor: "#111111"
+      xAxisTitleColor: "#111111"
+      xAxisTickColor: "#333333"
+      xAxisLineColor: "#333333"
+      yAxisLabelColor: "#111111"
+      yAxisTitleColor: "#111111"
+      yAxisTickColor: "#333333"
+      yAxisLineColor: "#333333"
+      plotColorPalette: "#1976D2"
+---
 xychart-beta
     title "Concurrency vs Throughput"
     x-axis "Concurrent Requests" [1, 2, 4, 8, 16]
@@ -214,11 +244,26 @@ xychart-beta
 
 ## 📊 Memory Usage
 
-**Bright Green**
+**Green Bars**
 
 ```mermaid
-%%{init: {'theme':'default', 'themeVariables': {'primaryColor':'#00C853', 'primaryTextColor':'#000000', 'primaryBorderColor':'#00C853', 'textColor':'#000000'}}}%%
-
+---
+config:
+  theme: base
+  themeVariables:
+    xyChart:
+      backgroundColor: "#FFFFFF"
+      titleColor: "#111111"
+      xAxisLabelColor: "#111111"
+      xAxisTitleColor: "#111111"
+      xAxisTickColor: "#333333"
+      xAxisLineColor: "#333333"
+      yAxisLabelColor: "#111111"
+      yAxisTitleColor: "#111111"
+      yAxisTickColor: "#333333"
+      yAxisLineColor: "#333333"
+      plotColorPalette: "#388E3C"
+---
 xychart-beta
     title "Memory Usage by Service"
     x-axis "Service" [Appointment, Doctor, Patient, Billing]
@@ -232,12 +277,12 @@ xychart-beta
 
 Docker resource monitoring produced the following results:
 
-| Service     | CPU Usage | Memory Usage | Memory % |
-| ----------- | --------: | -----------: | -------: |
-| Appointment |     0.26% |    52.14 MiB |    0.67% |
-| Doctor      |     0.21% |    33.23 MiB |    0.43% |
-| Patient     |     0.22% |    33.15 MiB |    0.43% |
-| Billing     |     0.23% |    33.23 MiB |    0.43% |
+| Service     | CPU Usage |  Memory Usage |  Memory % |
+| ----------- | --------: | ------------: | --------: |
+| Appointment | **0.26%** | **52.14 MiB** | **0.67%** |
+| Doctor      | **0.21%** | **33.23 MiB** | **0.43%** |
+| Patient     | **0.22%** | **33.15 MiB** | **0.43%** |
+| Billing     | **0.23%** | **33.23 MiB** | **0.43%** |
 
 ---
 
